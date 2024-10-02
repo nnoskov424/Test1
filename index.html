@@ -1,0 +1,59 @@
+import java.util.Scanner;
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Input:");
+        String input = scanner.nextLine();
+
+        try {
+            System.out.println(calc(input));
+        } catch (Exception e) {
+            System.out.println("throws Exception");
+        }
+    }
+
+    static String calc(String input) throws Exception {
+        String[] parts = input.trim().split(" ");
+        if (parts.length != 3) {
+            throw new Exception("Неверный формат выражения. Должно быть два операнда и один оператор.");
+        }
+
+        int num1, num2;
+        try {
+            num1 = Integer.parseInt(parts[0]);
+            num2 = Integer.parseInt(parts[2]);
+        } catch (NumberFormatException e) {
+            throw new Exception("Операнды должны быть целыми числами.");
+        }
+
+        String operator = parts[1];
+
+        if (num1 < 1 || num1 > 10 || num2 < 1 || num2 > 10) {
+            throw new Exception("Операнды должны быть в диапазоне от 1 до 10.");
+        }
+
+        int result;
+        switch (operator) {
+            case "+":
+                result = num1 + num2;
+                break;
+            case "-":
+                result = num1 - num2;
+                break;
+            case "*":
+                result = num1 * num2;
+                break;
+            case "/":
+                if (num2 == 0) {
+                    throw new Exception("Деление на ноль невозможно.");
+                }
+                result = num1 / num2;
+                break;
+            default:
+                throw new Exception("Недопустимый оператор. Ожидается +, -, *, /.");
+        }
+
+        return String.valueOf(result);
+    }
+}
